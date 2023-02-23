@@ -1,0 +1,15 @@
+{
+  "name": "Action script injection demo",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Click to show an alert"
+  },
+  "permissions": ["scripting","activeTab","tabs"],
+    "host_permissions": [
+    "https://www.upwork.com/nx/find-work/most-recent"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
