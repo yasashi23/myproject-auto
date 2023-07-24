@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>riset ku</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    body{
+        width: 100%;
+    }
+    tr:nth-child(even){
+        background-color: #e9e9e9;
+    }
+    .jam {
+        display: inline-grid; 
+
+grid-template-rows: 1fr;
+grid-template-columns: 1fr 1fr 1fr 1fr;
+
+gap: 20px;
+height: 100%;
+        
+    }
+    .jam table tr td:first-child{
+        width: 60px;
+    }
+    .jam table tr td:last-child{
+
+        color: red;
+        text-align: center;
+        width: 40px;
+    }
+    @media only screen and (max-width:560px){
+        .jam{
+            grid-template-rows: 1fr 1fr;
+   grid-template-columns: 1fr 1fr;
+   height: 100%;
+        }
+    }
+</style>
+<body>
+    
+    <center>
+        <h1>Skills Yang sedang dicari di upwork</h1>
+        <br>
+        <table id="dataTable">
+            <tr>
+                <th>name</th>
+                <th>skor</th>
+            </tr>
+        </table>
+        <br><br><br>
+
+        <h1>kata judul yang sering di pakai</h1>
+        <br>
+        <table id="judulTab">
+            <tr>
+                <th>judul</th>
+                <th>skor</th>
+            </tr>
+        </table>
+        <br><br>
+<h1>ini untuk jam</h1>
+<br>
+        <div class="jam">
+            <div>
+                <h3>PAGI</h3>
+                <table id="jamTable">
+                    <tr>
+                        <th>jam</th>
+                        <th>jml</th>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h3>SIANG</h3>
+                <table id="jamTable">
+                    <tr>
+                        <th>jam</th>
+                        <th>jml</th>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h3>SORE</h3>
+                <table id="jamTable">
+                    <tr>
+                        <th>jam</th>
+                        <th>jml</th>
+                    </tr>
+                </table>
+            </div>
+            <div>
+                <h3>MALAM</h3>
+                <table id="jamTable">
+                    <tr>
+                        <th>jam</th>
+                        <th>jml</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <br><br>
+    </center>
+
+    <script>
+        const linkApi = 'https://2c6f-2001-448a-2062-155b-d2c7-6825-81b4-e244.ngrok-free.app'
+async function apiSkill() {
+        const res = await fetch(linkApi+'/api')
+        const dat = await res.json()
+
+         dat.map((x,ind) => {
+            tabN(x.code,x.jml,'dataTable')
+         })
+         return dat
+        }
+
+    async function apiJudul(){
+        const res = await fetch(linkApi+'/apiJudul')
+        const dat = await res.json()
+
+        dat.map((x,ind) => {
+            tabN(x.kata,x.jml,'judulTab')
+        })
+    }
+
+    async function apiJam() {
+        const res = await fetch(linkApi + '/apiJam')
+        const dat = await res.json()
+        
+        tabJ(0)
+        tabJ(1)
+        tabJ(2)
+        tabJ(3)
+        console.log(dat)
+        function tabJ(a) {
+            dat[a].totalJam.map(x => {
+                tabJam(x.jam, x.jml, a)
+            })
+        }
+    }
+
+
+        apiJudul()
+        apiSkill()
+        apiJam()
+
+            
+        
+
+            function tabN(a,b,c) {
+            const tab = document.getElementById(c);
+            var row = tab.insertRow(0)
+            var cell1 = row.insertCell(0)
+            var cell2 = row.insertCell(1)
+            // var cell3 = row.insertCell(2)
+            
+            cell1.innerHTML = a
+            cell2.innerHTML = b
+            sortTable(c)
+        }
+        
+        function tabJam(a,b,c) {
+            const tab = document.querySelectorAll('.jam table');
+            var row = tab[c].insertRow(0)
+            var cell1 = row.insertCell(0)
+            var cell2 = row.insertCell(1)
+
+            cell1.innerHTML = "jam "+a
+            cell2.innerHTML = b
+                sortTableJam(tab[c])
+        }
+
+        function sortTable(a) {
+                const table = document.getElementById(a);
+                const rows = Array.from(table.rows);
+
+                rows.sort((a, b) => {
+                    const numA = parseInt(a.cells[1].textContent, 10);
+                    const numB = parseInt(b.cells[1].textContent, 10);
+                    return numB - numA; // Sort in descending order
+                });
+
+                rows.forEach(row => table.appendChild(row));
+            }
+
+            function sortTableJam(table) {
+                const rows = Array.from(table.rows);
+
+                rows.sort((a, b) => {
+                    const numA = parseInt(a.cells[1].textContent, 10);
+                    const numB = parseInt(b.cells[1].textContent, 10);
+                    return numB - numA; // Sort in descending order
+                });
+
+                rows.forEach(row => table.appendChild(row));
+            }
+
+    </script>
+</body>
+</html>

@@ -3,7 +3,7 @@ import subprocess
 import time
 
 
-linknya = "google-chrome --remote-debugging-port=8989 --user-data-dir=':~/.config/google-chrome/profile1' --tab"
+linknya = "google-chrome --remote-debugging-port=8989 --user-data-dir=':~/.config/google-chrome/profile1' --tab --disable-background-timer-throttling"
 link2 = "npm start"
 link3 = "python3 upwork-wa.py"
 shutdo = "pkill node && pkill -f gnome-terminal"

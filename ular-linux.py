@@ -3,8 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
+from googletrans import Translator as trans
 import json
 
+tarjim = trans()
 # copy from json data pesan wa
 with open('data.json', 'r') as file:
     cont = file.read()
@@ -36,8 +38,12 @@ estMod = Est.replace("\n", "")
 skill= dat["Skill"]
 link = dat['linknya']
 
-title = ["*Judul* : ","*Proposal* : ","*Paymentnya* : ","*Spend* : ","*Post* : ","*Negara* : ","*Job-Type* : ","*Est* : ","*Deskripsi* : ",""]
-titleIsi = [dat['judul'],dat['propo'],dat['paymentnya'],dat['spendnya'],dat['Post'],dat['negara'],dat['Type'],estMod,deskMod,""]
+#title = ["*Judul* : ","*Proposal* : ","*Paymentnya* : ","*Spend* : ","*Post* : ","*Negara* : ","*Job-Type* : ","*Est* : ","*Deskripsi* : ",""]
+#titleIsi = [dat['judul'],dat['propo'],dat['paymentnya'],dat['spendnya'],dat['Post'],dat['negara'],dat['Type'],estMod,deskMod,""]
+newPost = tarjim.translate(f"{deskMod}",dest='id').text
+
+title = ["*Judul* : ","*Job-Type* : ","*Est* : ","*JOB-DES* : ",""]
+titleIsi = [dat['judul'],dat['Type'],"FOkus dlu",newPost,""]
 
 # driver get
 opt = Options()
@@ -48,7 +54,8 @@ driver = webdriver.Chrome(options=opt)
 # driver.get("https://web.whatsapp.com/")
 
 # cari contact
-cont = driver.find_element(By.CSS_SELECTOR,'span[title="Yashi"]')
+cont = driver.find_element(By.CSS_SELECTOR,'span[title="Second Number"]')
+#cont = driver.find_element(By.CSS_SELECTOR,'span[title="Yashi"]')
 cont.click()
 
 # ketik kolom chat
@@ -73,7 +80,7 @@ def sebutText(title,isi,n,jumlahEnter):
 chat.send_keys("========= PEMBUKA =========")
 sendKeys(2)
 
-sebutText(title,titleIsi,10,2)
+sebutText(title,titleIsi,4,2)
 
 # looping skills
 chat.send_keys("*Skills* : ")
@@ -82,21 +89,23 @@ for sk in skill:
     chat.send_keys(sk)
     sendKeys(1)
 
+
+
 sendKeys(2)
 chat.send_keys(f"*Link* : {link}")
 
-sendKeys(2)
-sebutText(jadwalTitle,jadwal,5,1)
-chat.send_keys(Keys.BACKSPACE)
+# sendKeys(2)
+# sebutText(jadwalTitle,jadwal,5,1)
+# chat.send_keys(Keys.BACKSPACE)
 
-sendKeys(1)
-chat.send_keys("--------------------")
+# sendKeys(1)
+# chat.send_keys("--------------------")
 
-sendKeys(1)
-chat.send_keys(f"*total* =   {sum(jadwal)}")
+# sendKeys(1)
+# chat.send_keys(f"*total* =   {sum(jadwal)}")
 
-sendKeys(1)
-sebutText(hari,jumlahHari,8,1)
+# sendKeys(1)
+# sebutText(hari,jumlahHari,8,1)
 
 sendKeys(2)
 chat.send_keys("========= PENUTUP =========")
