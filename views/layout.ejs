@@ -47,7 +47,7 @@ height: 100%;
 <body>
     
     <center>
-        <h1>Skills Yang sedang dicari di upwork</h1>
+        <h1>Skills Yang sedang dicari</h1>
         <br>
         <table id="dataTable">
             <tr>
@@ -67,6 +67,8 @@ height: 100%;
         </table>
         <br><br>
 <h1>ini untuk jam</h1>
+<p>putaran mulai dari:</p>
+<p><u>24-07-23 15:00</u></p>
 <br>
         <div class="jam">
             <div>
@@ -180,26 +182,39 @@ async function apiSkill() {
         function sortTable(a) {
                 const table = document.getElementById(a);
                 const rows = Array.from(table.rows);
+                rows.forEach(row => {
+    const numA = parseInt(row.cells[1].textContent, 10);
+    if (numA < 3) {
+      row.style.display = 'none'; // Hide rows with value 1 in the second <td>
+    }
+  });
 
-                rows.sort((a, b) => {
-                    const numA = parseInt(a.cells[1].textContent, 10);
-                    const numB = parseInt(b.cells[1].textContent, 10);
-                    return numB - numA; // Sort in descending order
-                });
+  const filteredRows = rows.filter(row => {
+    const numA = parseInt(row.cells[1].textContent, 10);
+    return numA > 2;
+  });
 
-                rows.forEach(row => table.appendChild(row));
+  filteredRows.sort((a, b) => {
+    const numA = parseInt(a.cells[1].textContent, 10);
+    const numB = parseInt(b.cells[1].textContent, 10);
+    return numB - numA; // Sort in descending order
+  });
+
+  filteredRows.forEach(row => {
+    row.style.display = ''; // Make sure the sorted rows are visible
+    table.appendChild(row);
+  });
             }
 
             function sortTableJam(table) {
                 const rows = Array.from(table.rows);
-
                 rows.sort((a, b) => {
-                    const numA = parseInt(a.cells[1].textContent, 10);
-                    const numB = parseInt(b.cells[1].textContent, 10);
-                    return numB - numA; // Sort in descending order
-                });
+                            const numA = parseInt(a.cells[1].textContent, 10);
+                            const numB = parseInt(b.cells[1].textContent, 10);
+                            return numB - numA; // Sort in descending order
+                        });
 
-                rows.forEach(row => table.appendChild(row));
+                        rows.forEach(row => table.appendChild(row));
             }
 
     </script>

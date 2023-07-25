@@ -1,6 +1,5 @@
-const fs = require('fs')
 const {spawn} = require('child_process')
-
+const fs = require('fs')
 
 
 // hari jam
@@ -119,17 +118,23 @@ function hariChange(j){
 const dateN = new Date()
 
 async function program(rst,hrn,dtk){
-    const pythonExec = await spawn("python3",["ular-linux.py"])
-    pythonExec.on('exit',(code,signal)=>{
-        console.log('python1  sudah berjalan')
-        fs.writeFileSync('riset/riset-jam.json', JSON.stringify(rst))
-        fs.writeFileSync('riset/riset-hari.json', JSON.stringify(hrn))
-        fs.writeFileSync('siapKirim.json', JSON.stringify(dtk))
-        tics()
-        judulTics()
-        jamAnalytics(dateN.getHours())
-    })
-
+    // const pythonExec = await spawn("python3",["ular-linux.py"])
+    // pythonExec.on('exit',(code,signal)=>{
+    //     console.log('python1  sudah berjalan')
+    //     fs.writeFileSync('riset/riset-jam.json', JSON.stringify(rst))
+    //     fs.writeFileSync('riset/riset-hari.json', JSON.stringify(hrn))
+    //     fs.writeFileSync('siapKirim.json', JSON.stringify(dtk))
+    //     tics()
+    //     judulTics()
+    //     jamAnalytics(dateN.getHours())
+    // })
+    fs.writeFileSync('riset/riset-jam.json', JSON.stringify(rst))
+    fs.writeFileSync('riset/riset-hari.json', JSON.stringify(hrn))
+    fs.writeFileSync('siapKirim.json', JSON.stringify(dtk))
+    tics()
+    judulTics()
+    jamAnalytics(dateN.getHours())
+}
 
     const wordDataJson = JSON.parse(fs.readFileSync('./wordData.json','utf-8'))
 
@@ -147,6 +152,7 @@ function judulTics (){
       wordDataJson[up].jml += 1
     }
   }
+  
 
   fs.writeFileSync('wordData.json',JSON.stringify(wordDataJson))
   // const judulArrayUpperCase = 
@@ -201,7 +207,7 @@ function jamAnalytics(a) {
     }
     fs.writeFileSync('analyticsSkills.json',JSON.stringify(analyticsData))
 }
-}
+
 
 
 
